@@ -1,4 +1,21 @@
-import { useState } from 'react'
+import './App.css'
+
+function App() {
+  return (
+    <>
+    <div>
+      <h1>Welcome to Dragond!</h1>
+      <p>Here you will be able to generate your own rpg character</p>
+      <p>Select which rpg edition you would like to try out and fill out its questionnaires to create your character (or don't and leave it all to chance!)</p>
+      <h4>Select an edition to get started</h4>
+    </div>
+    </>
+  );
+}
+
+export default App
+
+/*import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -33,3 +50,5 @@ function App() {
 }
 
 export default App
+*/
+

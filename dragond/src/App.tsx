@@ -1,14 +1,29 @@
-import './App.css'
+import './App.css';
+import Button from './components/Button';
+import DnD5e2024 from './DnD5e2024';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <>
-    <div>
-      <h1>Welcome to Dragond!</h1>
-      <p>Here you will be able to generate your own rpg character</p>
-      <p>Select which rpg edition you would like to try out and fill out its questionnaires to create your character (or don't and leave it all to chance!)</p>
-      <h4>Select an edition to get started</h4>
-    </div>
+    <BrowserRouter>
+    <Routes>
+      <Route path="/" element = {
+        <div>
+          <h1>Welcome to Dragond!</h1>
+          <p>Here you will be able to generate your own rpg character</p>
+          <p>Select which rpg edition you would like to try out and fill out its questionnaires to create your character (or don't and leave it all to chance!)</p>
+          <h4>Select an edition to get started</h4>
+          <nav>
+            <Button title="D&D 5e (2024)" disabled={false} url="/DnD5e2024"/>
+            <Button title="D&D 5e (Coming Soon!)" disabled={true} url=""/>
+            <Button title="Pathfinder 3.5e (Coming Soon!)" disabled={true} url=""/>
+          </nav>
+      </div>
+      }/>
+      <Route path="/DnD5e2024" element={<DnD5e2024/>} />
+    </Routes>
+    </BrowserRouter>
     </>
   );
 }

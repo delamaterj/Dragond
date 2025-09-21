@@ -2,8 +2,13 @@ import './App.css';
 import Button from './components/Button';
 import DnD5e2024 from './DnD5e2024';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from 'react';
 
 function App() {
+  useEffect(() => {
+    document.title = "Dragond";
+  }, []);
+  
   return (
     <>
     <BrowserRouter>

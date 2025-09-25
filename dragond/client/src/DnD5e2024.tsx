@@ -1,12 +1,9 @@
 import Button from './components/Button';
-import { useEffect } from 'react';
 
 //let classes : string[] = ["Barbarian", "Bard", "Cleric", "Duid", "Fight", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"];
 
 function DnD5e2024() {
-    useEffect(() => {
-    document.title = "DnD5e2024";
-  }, []);
+
     return (
         <>
             <div>
@@ -19,6 +16,7 @@ function DnD5e2024() {
             </div>
         </>
     )
+    
 }
 
 export default DnD5e2024;

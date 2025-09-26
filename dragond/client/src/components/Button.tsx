@@ -12,8 +12,7 @@ interface ButtonProp {
 function Button({title, disabled, url}: ButtonProp){
 
     const navigate = useNavigate();
-    const [message, setMessage] = useState("");
-
+    const [message, setMessage] = useState<number[]>([]);
     function handleClickBack() {
 
         navigate(-1);
@@ -23,18 +22,18 @@ function Button({title, disabled, url}: ButtonProp){
     async function handleClickGenerate() {
 
         try {
-            const response = await fetch('http://localhost:3000/api/hello');
+            const response = await fetch('http://localhost:5000/api/stats');
             if(!response.ok){
                 throw new Error(`HTTP error: , ${response.status}`);
             }
             const data = await response.json();
-            setMessage(data.message);
-            console.log(data.message);
+            setMessage(data.stats);
+            console.log(data.stats);
             }
         catch (error) {
             console.error('Error message: ', error);
         }
-        
+
     }
 
     function handleClickNav() {
@@ -54,18 +53,14 @@ function Button({title, disabled, url}: ButtonProp){
         return (
             <>
                 <button disabled={disabled} className="btn btn-primary" onClick={handleClickGenerate}>{title}</button>
-                <p>{message}</p>
-            </>
-            /*
-            <>
-                <button disabled={disabled} className="btn btn-primary" onClick={handleClickGenerate}>{title}</button>
-                {message && (
-                <>
-                <br/>
-                <p>{message}</p>
-                </>
+                {message.length > 0 && (
+                <ul>
+                {message.map((num, index) => (
+                <li key={index}>{num}</li>
+                ))}
+                </ul>
                 )}
-            </>*/
+            </>
         );
     }
     else if (url !== "") {

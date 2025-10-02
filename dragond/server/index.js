@@ -8,12 +8,9 @@ const PORT = 5000;
     constructor(potentialSkills, feats, proficiencies)
 }*/
 
+let allTools = [];
+let allSkills = ['Acrobatics', 'Animal Handling', 'Arcana', 'Athletics', 'Deception', 'History', 'Insight', 'Intimidation', 'Investigation', 'Medicine', 'Nature', 'Perception', 'Performance', 'Persuation', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival'];
 let skilledProficiencies = [];
-let allSkills = [];
-let artisanTools = [];
-let artisanToolsFast = [];
-let instruments = [];
-let gamingSets = [];
 
 let species = ['Aasimar', 'Dragonborn', 'Dwarf', 'Elf', 'Gnome', 'Goliath', 'Halfling', 'Human', 'Orc', 'Tiefling'];
 let speciesDragonborn = ['Black', 'Blue', 'Brass', 'Bronze', 'Copper', 'Gold', 'Green', 'Red', 'Silver', 'White'];
@@ -49,7 +46,7 @@ let warlockSkills = [2, 'Arcana', 'Deception', 'History', 'Intimidation', 'Inves
 let wizardSkills = [2, 'Arcana', 'History', 'Insight', 'Investigation', 'Medicine', 'Nature', 'Religion'];
 //spells
 
-let classes = ["Barbarian", "Bard", "Cleric", "Duid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"];
+let classes = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard'];
 
 function rollStats() {
     let stat = 0;
@@ -81,9 +78,33 @@ function acquireSkills(tempSkills, skillList) {
     return tempSkills;
 }
 
+function acquireToolGaming(tempTools) {
+    let gamingSets = ['Dice', 'Dragonchess', 'Playing Cards', 'Three-dragon Ante'];
+    tempTools.push(gamingSets[Math.floor(Math.random() * gamingSets.length)]);
+    return tempTools;
+}
+
+function acquireToolInst(tempTools, numOfInst) {
+    let instruments = ['Bagpipes', 'Drum', 'Dulcimer', 'Flute', 'Horn', 'Lute', 'Lyre', 'Pan Flute', 'Shawm', 'Viol'];
+    for (let i = 0; i < numOfInst; i++) {
+        tool = instruments[Math.floor(Math.random() * instruments.length)]
+        if(!tempTools.includes(tool)) {
+            tempTools.push(tool);
+        }
+        else {
+            i--;
+        }
+    }
+    return tempTools;
+}
+
+function calculateSkilled(tempSkills, tempTools) {
+
+}
+
 function generateSubClass(race, subRaceList) {
     let subRace = subRaceList[Math.floor(Math.random() * subRaceList.length)];
-    return race + " (" + subRace + ")";
+    return race + ' (' + subRace + ')';
 }
 
 function generateCharacter(race, background, className) {
@@ -94,187 +115,195 @@ function generateCharacter(race, background, className) {
 
     character.push(background);
     switch (background) {
-        case "Acolyte":
-            tempSkills.push("Insight");
-            tempSkills.push("Religion");
+        case 'Acolyte':
+            tempSkills.push('Insight');
+            tempSkills.push('Religion');
             tempTools.push("Calligrapher's Supplies");
-            feats.push("Magic Initiate (Cleric)");
+            feats.push('Magic Initiate (Cleric)');
             break;
-        case "Artisan":
-            tempSkills.push("Investigation");
-            tempSkills.push("Persuasion");
-            feats.push("Crafter {}");
+        case 'Artisan':
+            tempSkills.push('Investigation');
+            tempSkills.push('Persuasion');
+            feats.push('Crafter');
             //artisan toolss
             break;
-        case "Charlatan":
-            tempSkills.push("Deception");
-            tempSkills.push("Sleight of Hand");
-            tempTools.push("Forgery Kit");
-            feats.push("Skilled {}");
+        case 'Charlatan':
+            tempSkills.push('Deception');
+            tempSkills.push('Sleight of Hand');
+            tempTools.push('Forgery Kit');
+            feats.push('Skilled');
             break;
-        case "Criminal":
-            tempSkills.push("Sleight of Hand");
-            tempSkills.push("Stealth");
+        case 'Criminal':
+            tempSkills.push('Sleight of Hand');
+            tempSkills.push('Stealth');
             tempTools.push("Thieves' Tools");
-            feats.push("Alert");
+            feats.push('Alert');
             break;
-        case "Entertainer":
-            tempSkills.push("Acrobatics");
-            tempSkills.push("Performance");
-            //inst
-            feats.push("Musician {}");
+        case 'Entertainer':
+            tempSkills.push('Acrobatics');
+            tempSkills.push('Performance');
+            tempTools = acquireToolInst(tempTools, 4);
+            feats.push('Musician');
             break;
-        case "Farmer":
-            tempSkills.push("Animal Handling");
-            tempSkills.push("Nature");
+        case 'Farmer':
+            tempSkills.push('Animal Handling');
+            tempSkills.push('Nature');
             tempTools.push("Carpenter's Tools");
-            feats.push("Tough");
+            feats.push('Tough');
             break;
-        case "Guard":
-            tempSkills.push("Athletics");
-            tempSkills.push("Perception");
-            //gaming
-            feats.push("Alert");
+        case 'Guard':
+            tempSkills.push('Athletics');
+            tempSkills.push('Perception');
+            tempTools = acquireToolGaming(tempTools);
+            feats.push('Alert');
             break;
-        case "Guide":
-            tempSkills.push("Stealth");
-            tempSkills.push("Survival");
+        case 'Guide':
+            tempSkills.push('Stealth');
+            tempSkills.push('Survival');
             tempTools.push("Cartographer's Tools");
-            feats.push("Magic Initiate (Druid)");
+            feats.push('Magic Initiate (Druid)');
             break;
-        case "Hermit":
-            tempSkills.push("Medicine");
-            tempSkills.push("Religion");
-            tempTools.push("Herbalism Kit");
-            feats.push("Healer");
+        case 'Hermit':
+            tempSkills.push('Medicine');
+            tempSkills.push('Religion');
+            tempTools.push('Herbalism Kit');
+            feats.push('Healer');
             break;
-        case "Merchant":
-            tempSkills.push("Animal Handling");
-            tempSkills.push("Persuasion");
+        case 'Merchant':
+            tempSkills.push('Animal Handling');
+            tempSkills.push('Persuasion');
             tempTools.push("Navigator's Tools");
-            feats.push("Lucky");
+            feats.push('Lucky');
             break;
-        case "Noble":
-            tempSkills.push("History");
-            tempSkills.push("Persuasion");
-            //gaming
-            feats.push("Skilled {}");
+        case 'Noble':
+            tempSkills.push('History');
+            tempSkills.push('Persuasion');
+            tempTools = acquireToolGaming(tempTools);
+            feats.push('Skilled');
             break;
-        case "Sage":
-            tempSkills.push("Arcana");
-            tempSkills.push("History");
+        case 'Sage':
+            tempSkills.push('Arcana');
+            tempSkills.push('History');
             tempTools.push("Calligrapher's Supplies");
-            feats.push("Magic Initiate (Wizard)");
+            feats.push('Magic Initiate (Wizard)');
             break;
-        case "Sailor":
-            tempSkills.push("Acrobatics");
-            tempSkills.push("Perception");
+        case 'Sailor':
+            tempSkills.push('Acrobatics');
+            tempSkills.push('Perception');
             tempTools.push("Navigator's Tools");
-            feats.push("Tavern Brawler");
+            feats.push('Tavern Brawler');
             break;
-        case "Scribe":
-            tempSkills.push("Investigation");
-            tempSkills.push("Perception");
+        case 'Scribe':
+            tempSkills.push('Investigation');
+            tempSkills.push('Perception');
             tempTools.push("Calligrapher's Supplies");
-            feats.push("Skilled {}");
+            feats.push('Skilled');
             break;
-        case "Soldier":
-            tempSkills.push("Athletics");
-            tempSkills.push("Intimidation");
-            //gaming
-            feats.push("Savage Attacker");
+        case 'Soldier':
+            tempSkills.push('Athletics');
+            tempSkills.push('Intimidation');
+            tempTools = acquireToolGaming(tempTools);
+            feats.push('Savage Attacker');
             break;
-        case "Wayfarer":
-            tempSkills.push("Insight");
-            tempSkills.push("Stealth");
+        case 'Wayfarer':
+            tempSkills.push('Insight');
+            tempSkills.push('Stealth');
             tempTools.push("Thieves' Tools");
-            feats.push("Lucky");
+            feats.push('Lucky');
             break;
         default:
-            console.log("Error: Background not found");
+            console.log('Error: Background not found');
+    }
+
+    character.push(className);
+    switch (className) {
+        case 'Barbarian':
+            tempSkills = acquireSkills(tempSkills, barbarianSkills);
+            break;
+        case 'Bard':
+            tempSkills = acquireSkills(tempSkills, bardSkills);
+            tempTools = acquireToolInst(tempTools, 3);
+            //inst equip
+            break;
+        case 'Cleric':
+            tempSkills = acquireSkills(tempSkills, clericSkills);
+            break;
+        case 'Druid':
+            tempSkills = acquireSkills(tempSkills, druidSkills);
+            tempTools.push('Herbalism Kit');
+            break;
+        case 'Fighter':
+            tempSkills = acquireSkills(tempSkills, fighterSkills);
+            break;
+        case 'Monk':
+            tempSkills = acquireSkills(tempSkills, monkSkills);
+            //tool
+            //tool equip
+            break;
+        case 'Paladin':
+            tempSkills = acquireSkills(tempSkills, paladinSkills);
+            break;
+        case 'Ranger':
+            tempSkills = acquireSkills(tempSkills, rangerSkills);
+            break;
+        case 'Rogue':
+            tempSkills = acquireSkills(tempSkills, rogueSkills);
+            tempTools.push("Thieve's Tools")
+            break;
+        case 'Sorcerer':
+            tempSkills = acquireSkills(tempSkills, sorcererSkills);
+            break;
+        case 'Warlock':
+            tempSkills = acquireSkills(tempSkills, warlockSkills);
+            break;
+        case 'Wizard':
+            tempSkills = acquireSkills(tempSkills, wizardSkills);
+            break;
+        default:
+            console.log('Error: Class ' + className + ' not found');
     }
 
     character.push(race);
     switch (race) {
-        case "Aasimar":
-            feats.push("Celestial Resistance", "Darkvision (60ft.)", "Healing Hands", "Light Bearer");
+        case 'Aasimar':
+            feats.push('Celestial Resistance', 'Darkvision (60ft.)', 'Healing Hands', 'Light Bearer');
             break;
-        case "Dragonborn":
-            character[1] = generateSubClass(race, speciesDragonborn);
-            feats.push("Draconic Ancestry", "Breath Weapon", "Damage Resistance", "Darkvision (60 ft.)");
+        case 'Dragonborn':
+            character[2] = generateSubClass(race, speciesDragonborn);
+            feats.push('Draconic Ancestry', 'Breath Weapon', 'Damage Resistance', 'Darkvision (60 ft.)');
             break;
-        case "Dwarf":
-            feats.push("Darkvision (120 ft.)", "Dwarven Resiliance", "Dwarven Toughness", "Stonecunning");
+        case 'Dwarf':
+            feats.push('Darkvision (120 ft.)', 'Dwarven Resiliance', 'Dwarven Toughness', 'Stonecunning');
             break;
-        case "Elf":
-            character[1] = generateSubClass(race, speciesElf);
-            feats.push("Darkvision (60 ft.)", "Elven Lineage", "Fey Ancestry", "Keen Senses {}", "Trance");
+        case 'Elf':
+            character[2] = generateSubClass(race, speciesElf);
+            feats.push('Darkvision (60 ft.)', 'Elven Lineage', 'Fey Ancestry', 'Keen Senses {}', 'Trance');
             break;
-        case "Gnome":
-            character[1] = generateSubClass(race, speciesGnome);
-            feats.push("Darkvision (60 ft.)", "Gnomish Cunning");
+        case 'Gnome':
+            character[2] = generateSubClass(race, speciesGnome);
+            feats.push('Darkvision (60 ft.)', 'Gnomish Cunning');
             break;
-        case "Goliath":
-            character[1] = generateSubClass(race, speciesGoliath);
-            feats.push("Giant Ancestry", "Powerful Build");
+        case 'Goliath':
+            character[2] = generateSubClass(race, speciesGoliath);
+            feats.push('Giant Ancestry', 'Powerful Build');
             break;
-        case "Halfling":
-            feats.push("Brave", "Halfling Nimbleness", "Luck", "Naturally Stealthy");
+        case 'Halfling':
+            feats.push('Brave', 'Halfling Nimbleness', 'Luck', 'Naturally Stealthy');
             break;
-        case "Human":
-            feats.push("Resourceful", "Skillful {}", "Versatile {}");
+        case 'Human':
+            feats.push('Resourceful', 'Skillful {}', 'Versatile {}');
             break;
-        case "Orc":
-            feats.push("Adrenaline Rush", "Darkvision (120 ft.)", "Relentless Endurance");
+        case 'Orc':
+            feats.push('Adrenaline Rush', 'Darkvision (120 ft.)', 'Relentless Endurance');
             break;
-        case "Tiefling":
-            character[1] = generateSubClass(race, speciesTiefling);
-            feats.push("Darkvision (60 ft.)", "Fiendish Legacy", "Otherworldly Presence");
-            break;
-        default:
-            console.log("Error: Race not found");
-    }
-    character.push(className);
-    switch (className) {
-        case "Barbarian":
-            tempSkills = acquireSkills(tempSkills, barbarianSkills);
-            break;
-        case "Bard":
-            tempSkills = acquireSkills(tempSkills, bardSkills);
-            break;
-        case "Cleric":
-            tempSkills = acquireSkills(tempSkills, clericSkills);
-            break;
-        case "Druid":
-            tempSkills = acquireSkills(tempSkills, druidSkills);
-            break;
-        case "Fighter":
-            tempSkills = acquireSkills(tempSkills, fighterSkills);
-            break;
-        case "Monk":
-            tempSkills = acquireSkills(tempSkills, monkSkills);
-            break;
-        case "Paladin":
-            tempSkills = acquireSkills(tempSkills, paladinSkills);
-            break;
-        case "Ranger":
-            tempSkills = acquireSkills(tempSkills, rangerSkills);
-            break;
-        case "Rogue":
-            tempSkills = acquireSkills(tempSkills, rogueSkills);
-            break;
-        case "Sorcerer":
-            tempSkills = acquireSkills(tempSkills, sorcererSkills);
-            break;
-        case "Warlock":
-            tempSkills = acquireSkills(tempSkills, warlockSkills);
-            break;
-        case "Wizard":
-            tempSkills = acquireSkills(tempSkills, wizardSkills);
+        case 'Tiefling':
+            character[2] = generateSubClass(race, speciesTiefling);
+            feats.push('Darkvision (60 ft.)', 'Fiendish Legacy', 'Otherworldly Presence');
             break;
         default:
-            console.log("Error: Class " + className + " not found");
+            console.log('Error: Race not found');
     }
+
     character.push(tempSkills);
     character.push(tempTools);
     character.push(feats);
@@ -301,9 +330,6 @@ app.get('/api/stats', (req, res) => {
         statList.push(rollStats());
     }
     let character = generateCharacter(species[Math.floor(Math.random() * species.length)], backgrounds[Math.floor(Math.random() * backgrounds.length)], classes[Math.floor(Math.random() * classes.length)]);
-    //character.push(species[Math.floor(Math.random() * species.length)]);
-    //character.push(backgrounds[Math.floor(Math.random() * backgrounds.length)]);//
-    //character.push(classes[Math.floor(Math.random() * classes.length)]);
     res.json({stats: character});
 });
 

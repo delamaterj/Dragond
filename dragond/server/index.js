@@ -8,9 +8,15 @@ const PORT = 5000;
     constructor(potentialSkills, feats, proficiencies)
 }*/
 
-let allTools = [];
 let allSkills = ['Acrobatics', 'Animal Handling', 'Arcana', 'Athletics', 'Deception', 'History', 'Insight', 'Intimidation', 'Investigation', 'Medicine', 'Nature', 'Perception', 'Performance', 'Persuation', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival'];
-let skilledProficiencies = [];
+let allTools = [
+    "Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools",
+    "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools",
+    'Dice', 'Dragonchess', 'Playing Cards', 'Three-dragon Ante',
+    'Bagpipes', 'Drum', 'Dulcimer', 'Flute', 'Horn', 'Lute', 'Lyre', 'Pan Flute', 'Shawm', 'Viol'
+];
+
+let skilledProficiencies = allSkills.concat(allTools);
 
 let species = ['Aasimar', 'Dragonborn', 'Dwarf', 'Elf', 'Gnome', 'Goliath', 'Halfling', 'Human', 'Orc', 'Tiefling'];
 let speciesDragonborn = ['Black', 'Blue', 'Brass', 'Bronze', 'Copper', 'Gold', 'Green', 'Red', 'Silver', 'White'];
@@ -63,9 +69,6 @@ function rollStats() {
 }
 
 function acquireSkills(tempSkills, skillList) {
-    if (skillList.length < 3) {
-        return tempSkills;
-    }
     for (let i = 0; i < skillList[0]; i++) {
         tempValue = skillList[Math.floor(Math.random() * (skillList.length - 1)) + 1];
         if(!tempSkills.includes(tempValue)) {
@@ -80,7 +83,15 @@ function acquireSkills(tempSkills, skillList) {
 
 function acquireToolGaming(tempTools) {
     let gamingSets = ['Dice', 'Dragonchess', 'Playing Cards', 'Three-dragon Ante'];
-    tempTools.push(gamingSets[Math.floor(Math.random() * gamingSets.length)]);
+    for (let i = 0; i < 1; i++) {
+        tool = gamingSets[Math.floor(Math.random() * gamingSets.length)]
+        if(!tempTools.includes(tool)) {
+            tempTools.push(tool);
+        }
+        else {
+            i--;
+        }
+    }
     return tempTools;
 }
 
@@ -98,8 +109,22 @@ function acquireToolInst(tempTools, numOfInst) {
     return tempTools;
 }
 
-function calculateSkilled(tempSkills, tempTools) {
-
+function calculateSkilled(tempSkills, tempTools, skilledProficiencies, allSkills) {
+    for (let i = 0; i < 3; i++) {
+        let tempValue = skilledProficiencies[Math.floor(Math.random() * skilledProficiencies.length)];
+        if (tempTools.includes(tempValue) || tempTools.includes(tempValue)) {
+            i--;
+        }
+        else {
+            if (allSkills.includes(tempValue)) {
+                tempSkills.push(tempValue);
+            }
+            else {
+                tempTools.push(tempValue);
+            }
+        }
+    }
+    return [tempSkills, tempTools];
 }
 
 function generateSubClass(race, subRaceList) {
@@ -107,13 +132,27 @@ function generateSubClass(race, subRaceList) {
     return race + ' (' + subRace + ')';
 }
 
-function generateCharacter(race, background, className) {
-    let character = [];
-    let tempSkills = [];
-    let feats = [];
-    let tempTools = [];
+function acquireHumanFeat(feats) {
+    let allFeats = ['Alert', 'Crafter', 'Healer', 'Lucky', 'Magic Initiate (Cleric)', 'Magic Initiate (Druid)', 'Magic Initiate (Wizard)', 'Musician', 'Savage Attacker', 'Skilled', 'Tavern Brawler', 'Tough'];
+    for (let i = 0; i < 1; i++) {
+        let newFeat = allFeats[Math.floor(Math.random() * allFeats.length)];
+        if(!feats.includes(newFeat) || newFeat === 'Skilled') {
+            return newFeat;
+        }
+        else {
+            i--;
+        }
+    }
+}
 
-    character.push(background);
+function generateCharacter(race, background, className) {
+    
+    let character = [race, className, background, [], [], [], []];
+    //skills, tools, feats, stats
+    let tempSkills = [];
+    let tempTools = [];
+    let feats = [];
+
     switch (background) {
         case 'Acolyte':
             tempSkills.push('Insight');
@@ -215,7 +254,10 @@ function generateCharacter(race, background, className) {
             console.log('Error: Background not found');
     }
 
-    character.push(className);
+    if(race === 'Elf') {
+        tempSkills = acquireSkills(tempSkills, [1, 'Insight', 'Perception', 'Survival']);
+    }
+
     switch (className) {
         case 'Barbarian':
             tempSkills = acquireSkills(tempSkills, barbarianSkills);
@@ -263,50 +305,71 @@ function generateCharacter(race, background, className) {
             console.log('Error: Class ' + className + ' not found');
     }
 
-    character.push(race);
     switch (race) {
         case 'Aasimar':
             feats.push('Celestial Resistance', 'Darkvision (60ft.)', 'Healing Hands', 'Light Bearer');
             break;
         case 'Dragonborn':
-            character[2] = generateSubClass(race, speciesDragonborn);
+            character[0] = generateSubClass(race, speciesDragonborn);
             feats.push('Draconic Ancestry', 'Breath Weapon', 'Damage Resistance', 'Darkvision (60 ft.)');
             break;
         case 'Dwarf':
             feats.push('Darkvision (120 ft.)', 'Dwarven Resiliance', 'Dwarven Toughness', 'Stonecunning');
             break;
         case 'Elf':
-            character[2] = generateSubClass(race, speciesElf);
-            feats.push('Darkvision (60 ft.)', 'Elven Lineage', 'Fey Ancestry', 'Keen Senses {}', 'Trance');
+            character[0] = generateSubClass(race, speciesElf);
+            feats.push('Darkvision (60 ft.)', 'Elven Lineage', 'Fey Ancestry', 'Keen Senses', 'Trance');
             break;
         case 'Gnome':
-            character[2] = generateSubClass(race, speciesGnome);
+            character[0] = generateSubClass(race, speciesGnome);
             feats.push('Darkvision (60 ft.)', 'Gnomish Cunning');
             break;
         case 'Goliath':
-            character[2] = generateSubClass(race, speciesGoliath);
+            character[0] = generateSubClass(race, speciesGoliath);
             feats.push('Giant Ancestry', 'Powerful Build');
             break;
         case 'Halfling':
             feats.push('Brave', 'Halfling Nimbleness', 'Luck', 'Naturally Stealthy');
             break;
         case 'Human':
-            feats.push('Resourceful', 'Skillful {}', 'Versatile {}');
+            let humanSkill = [1];
+            humanSkill = humanSkill.concat(allSkills);
+            tempSkills = acquireSkills(tempSkills, humanSkill);
+            let newFeat = acquireHumanFeat(feats);
+            feats.push('Resourceful', 'Skillful', ('Versatile (' + newFeat + ')'));
+            if (newFeat === 'Skilled') {
+                [skilledskills, skilledtools] = calculateSkilled(tempSkills, tempTools, skilledProficiencies, allSkills);
+                tempSkills = skilledskills;
+                tempTools = skilledtools;
+            }
             break;
         case 'Orc':
             feats.push('Adrenaline Rush', 'Darkvision (120 ft.)', 'Relentless Endurance');
             break;
         case 'Tiefling':
-            character[2] = generateSubClass(race, speciesTiefling);
+            character[0] = generateSubClass(race, speciesTiefling);
             feats.push('Darkvision (60 ft.)', 'Fiendish Legacy', 'Otherworldly Presence');
             break;
         default:
             console.log('Error: Race not found');
     }
 
-    character.push(tempSkills);
-    character.push(tempTools);
-    character.push(feats);
+    if (background === 'Charlatan' || background === 'Noble' || background === 'Scribe') {
+        [skilledskills, skilledtools] = calculateSkilled(tempSkills, tempTools, skilledProficiencies, allSkills);
+        tempSkills = skilledskills;
+        tempTools = skilledtools;
+    }
+
+    character[3] = tempSkills;
+    character[4] = tempTools;
+    character[5] = feats;
+
+    let stats = [];
+    while (stats.length < 6) {
+        stats.push(rollStats());
+    }
+    character[6] = stats;
+
     return character;
 }
 
@@ -325,10 +388,7 @@ app.get('/api/hello', (req, res) => {
 });
 
 app.get('/api/stats', (req, res) => {
-    let statList = [];
-    while (statList.length < 6) {
-        statList.push(rollStats());
-    }
+    //let [skills, tools] = calculateSkilled([], [], skilledProficiencies, allSkills);
     let character = generateCharacter(species[Math.floor(Math.random() * species.length)], backgrounds[Math.floor(Math.random() * backgrounds.length)], classes[Math.floor(Math.random() * classes.length)]);
     res.json({stats: character});
 });

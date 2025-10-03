@@ -9,10 +9,30 @@ interface ButtonProp {
 
 }
 
+type NestedListItem = string | number | (string | number)[];
+
+const renderFlat = (items: NestedListItem[]) => {
+  return (
+    <>
+    <div>
+      {items.map((item, index) => {
+        if (Array.isArray(item)) {
+          // sub-array → join with commas
+          return <p key={index}>{item.join(", ")}</p>;
+        } else {
+          // simple value → just print it
+          return <p key={index}>{item}</p>;
+        }
+      })}
+    </div>
+    </>
+  );
+};
+
 function Button({title, disabled, url}: ButtonProp){
 
     const navigate = useNavigate();
-    const [message, setMessage] = useState<number[]>([]);
+    const [message, setMessage] = useState<NestedListItem[]>([]);
     function handleClickBack() {
 
         navigate(-1);
@@ -28,7 +48,6 @@ function Button({title, disabled, url}: ButtonProp){
             }
             const data = await response.json();
             setMessage(data.stats);
-            console.log(data.stats);
             }
         catch (error) {
             console.error('Error message: ', error);
@@ -53,13 +72,7 @@ function Button({title, disabled, url}: ButtonProp){
         return (
             <>
                 <button disabled={disabled} className="btn btn-primary" onClick={handleClickGenerate}>{title}</button>
-                {message.length > 0 && (
-                <ul>
-                {message.map((num, index) => (
-                <li key={index}>{num}</li>
-                ))}
-                </ul>
-                )}
+                 {message.length > 0 && renderFlat(message)}
             </>
         );
     }

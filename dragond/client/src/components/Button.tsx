@@ -14,7 +14,8 @@ type NestedListItem = string | number | (string | number)[];
 const renderFlat = (items: NestedListItem[]) => {
   return (
     <>
-    <div>
+    <div className="generatedItems">
+    <h4>RESULT:</h4>
       {items.map((item, index) => {
         if (Array.isArray(item)) {
           // sub-array → join with commas

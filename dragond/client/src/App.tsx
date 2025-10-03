@@ -17,7 +17,9 @@ function App() {
     <Routes>
       <Route path="/" element = {
         <div>
-          <h1>Welcome to Dragond!</h1>
+          <div className="header">
+            <h1>Welcome to Dragond!</h1>
+          </div>
           <p>Here you will be able to generate your own rpg character</p>
           <p>Select which rpg edition you would like to try out and fill out its questionnaires to create your character (or don't and leave it all to chance!)</p>
           <h4>Select an edition to get started</h4>
@@ -32,7 +34,7 @@ function App() {
     </Routes>
     </BrowserRouter>
     </>
-    
+
   );
 
 }

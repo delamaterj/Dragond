@@ -15,7 +15,12 @@ Dragond will support the following tabletop rpg editions:
 - (This application uses React, Typescript, and Node.js - Ensure you have all of the updated features to run these things!)
 - (Depending on your device, you may also need to go into powershell as an administrator and update your permissions)
 - Open the repository in VSCode or whatever appropiate platform
-- cd into dragond
-- open the terminal and type run npm dev
+- open the terminal and cd into dragond
+### FOR BACK-END:
+- cd into server
+- type 'npm start'
+### FOR FRONT-END:
+- cd into client
+- type 'npm run dev'
 
 

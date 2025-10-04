@@ -54,6 +54,13 @@ let wizardSkills = [2, 'Arcana', 'History', 'Insight', 'Investigation', 'Medicin
 
 let classes = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard'];
 
+function swap(list, a, b) {
+    let temp = list[a];
+    list[a] = list[b];
+    list[b] = temp;
+    return list;
+}
+
 function rollStats() {
     let stat = 0;
     let statRolls = [];
@@ -145,6 +152,75 @@ function acquireHumanFeat(feats) {
     }
 }
 
+function sortStats(className, stats, fighterType) {
+    if (fighterType !== "null") {
+        className = (className + " (" + fighterType + ")");
+    }
+    stats.sort((a, b) => b - a);
+    let duplicateStats = stats.slice();
+    console.log(stats);
+        if (className === "Fighter (dex)" || className === "Monk" || className === "Ranger" || className === "Rogue") { //dex 1
+            duplicateStats[1] = stats[0];
+        }
+        if (className === "Wizard") { //int 1
+            duplicateStats[3] = stats[0];
+        }
+        if (className === "Cleric" || className === "Druid") { //wis 1
+            duplicateStats[4] = stats[0];
+        }
+        if (className === "Bard" || className === "Sorcerer" || className === "Warlock") { //cha 1
+            duplicateStats[5] = stats[0];
+        }
+        if (className !== "Bard" && className !== "Monk" && className !== "Paladin" && className !== "Ranger") { //con 2
+            duplicateStats[2] = stats[1];
+        }
+        if (className === "Monk" || className === "Ranger") { //wis 2
+            duplicateStats[4] = stats[1];
+        }
+        if (className === "Paladin") { //cha 2
+            duplicateStats[5] = stats[1];
+        }
+        if (className === "Cleric" || className === "Fighter (dex)") { //str 3
+            duplicateStats[0] = stats[2];
+        }
+        if (className === "Barbarian" || className === "Druid" || className === "Sorcerer" || className === "Warlock" || className === "Wizard") { //dex 3
+            duplicateStats[1] = stats[2];
+        }
+        if (className === "Fighter (str)" || className === "Rogue") { //wis 3
+            duplicateStats[4] = stats[2];
+        }
+        if (className === "Fighter (str)") { //dex 4
+            duplicateStats[1] = stats[3];
+        }
+        if (className !== "Cleric" && className !== "Druid" && className !== "Fighter (str)" && className !== "Monk" && className !== "Ranger" && className !== "Rogue") { //wis 4
+            duplicateStats[4] = stats[3];
+        }
+        if (className === "Rogue") { //cha 4
+            duplicateStats[5] = stats[3];
+        }
+        if (className === "Druid" || className === "Monk" || className === "Ranger") { //str 5
+            duplicateStats[0] = stats[4];
+        }
+        if (className === "Cleric" || className === "Paladin") { //dex 5
+            duplicateStats[1] = stats[4];
+        }
+        if (className === "Bard" || className === "Rogue" || className === "Sorcerer" || className === "Warlock") { //int 5
+            duplicateStats[3] = stats[4];
+        }
+        if (className === "Barbarian" || className === "Fighter (dex)" || className === "Fighter (str)" || className === "Wizard") { //cha 5
+            duplicateStats[5] = stats[4];
+        }
+        if (className === "Bard" || className === "Rogue" || className === "Sorcerer" || className === "Warlock" || className === "Wizard") { //str 6
+            duplicateStats[0] = stats[5];
+        }
+        if (className === "Barbarian" || className === "Fighter (dex)" || className === "Fighter (str)" || className === "Paladin") { //int 6
+            duplicateStats[3] = stats[5];
+        }
+    console.log(duplicateStats);
+    return duplicateStats;
+
+}
+
 function generateCharacter(race, background, className) {
     
     let character = [race, className, background, [], [], [], []];
@@ -152,6 +228,7 @@ function generateCharacter(race, background, className) {
     let tempSkills = [];
     let tempTools = [];
     let feats = [];
+    let fighterType = "null";
 
     switch (background) {
         case 'Acolyte':
@@ -276,6 +353,8 @@ function generateCharacter(race, background, className) {
             break;
         case 'Fighter':
             tempSkills = acquireSkills(tempSkills, fighterSkills);
+            let fighterTypes = ["str", "dex"]
+            fighterType = fighterTypes[Math.floor(Math.random() * fighterTypes.length)]
             break;
         case 'Monk':
             tempSkills = acquireSkills(tempSkills, monkSkills);
@@ -368,6 +447,9 @@ function generateCharacter(race, background, className) {
     while (stats.length < 6) {
         stats.push(rollStats());
     }
+
+    stats = sortStats(className, stats, fighterType);
+
     character[6] = stats;
 
     return character;
@@ -388,7 +470,6 @@ app.get('/api/hello', (req, res) => {
 });
 
 app.get('/api/stats', (req, res) => {
-    //let [skills, tools] = calculateSkilled([], [], skilledProficiencies, allSkills);
     let character = generateCharacter(species[Math.floor(Math.random() * species.length)], backgrounds[Math.floor(Math.random() * backgrounds.length)], classes[Math.floor(Math.random() * classes.length)]);
     res.json({stats: character});
 });

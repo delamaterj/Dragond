@@ -15,7 +15,7 @@ function DnD5e2024() {
                     <li>Skill Proficiencies</li>
                     <li>Tool Proficiencies</li>
                     <li>Feats (Origin, Species)</li>
-                    <li>Ability Score Stats (Unordered)</li>
+                    <li>Ability Score Stats (In the following order: STR, DEX, CON, INT, WIS, CHA)</li>
                 </ul>
                 <span>
                     <Button title="Generate" disabled={false} url=""/>

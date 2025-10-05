@@ -8,7 +8,7 @@ const PORT = 5000;
     constructor(potentialSkills, feats, proficiencies)
 }*/
 
-let allSkills = ['Acrobatics', 'Animal Handling', 'Arcana', 'Athletics', 'Deception', 'History', 'Insight', 'Intimidation', 'Investigation', 'Medicine', 'Nature', 'Perception', 'Performance', 'Persuation', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival'];
+let allSkills = ['Acrobatics', 'Animal Handling', 'Arcana', 'Athletics', 'Deception', 'History', 'Insight', 'Intimidation', 'Investigation', 'Medicine', 'Nature', 'Perception', 'Performance', 'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival'];
 let allTools = [
     "Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools",
     "Disguise Kit", "Forgery Kit", "Herbalism Kit", "Navigator's Tools", "Poisoner's Kit", "Thieves' Tools",
@@ -158,7 +158,7 @@ function sortStats(className, stats, fighterType) {
     }
     stats.sort((a, b) => b - a);
     let duplicateStats = stats.slice();
-    console.log(stats);
+
         if (className === "Fighter (dex)" || className === "Monk" || className === "Ranger" || className === "Rogue") { //dex 1
             duplicateStats[1] = stats[0];
         }
@@ -216,11 +216,18 @@ function sortStats(className, stats, fighterType) {
         if (className === "Barbarian" || className === "Fighter (dex)" || className === "Fighter (str)" || className === "Paladin") { //int 6
             duplicateStats[3] = stats[5];
         }
-    console.log(duplicateStats);
+
     return duplicateStats;
 
 }
 
+function eliminateDuplicates(character) {
+    character[3] = [...new Set(character[3])];
+    character[4] = [...new Set(character[4])];
+    return character;
+}
+
+//main of back-end
 function generateCharacter(race, background, className) {
     
     let character = [race, className, background, [], [], [], []];
@@ -451,6 +458,7 @@ function generateCharacter(race, background, className) {
     stats = sortStats(className, stats, fighterType);
 
     character[6] = stats;
+    character = eliminateDuplicates(character);
 
     return character;
 }
@@ -470,7 +478,10 @@ app.get('/api/hello', (req, res) => {
 });
 
 app.get('/api/stats', (req, res) => {
+    //random:
     let character = generateCharacter(species[Math.floor(Math.random() * species.length)], backgrounds[Math.floor(Math.random() * backgrounds.length)], classes[Math.floor(Math.random() * classes.length)]);
+    //custom:
+    //let character = generateCharacter("Elf", "Noble", "Ranger");
     res.json({stats: character});
 });
 

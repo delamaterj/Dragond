@@ -1,0 +1,17 @@
+name,feat,skills,tool,equipment,abilities
+Acolyte,Magic Initiate (Cleric),Insight;Religion,Calligrapher's Supplies,Calligrapher's Supplies;Book (prayers);Holy Symbol;Parchment(10 sheets);Robe;8 GP,INT;WIS;CHA
+Artisan,Crafter,Investigation;Persuasion,,2 Pouches;Traveler's Clothes;32 GP,STR;DEX;INT
+Charlatan,Skilled,Deception;Sleight of Hand,Forgery Kit,Costume;Fine Clothes;15 GP,DEX;CON;CHA
+Criminal,Alert,Sleight of Hand;Stealth,Thieves' Tools,2 Daggers;Thieves' Tools;Crowbar;2 Pouches;Traveler's Clothes;16 GP,DEX;CON;INT
+Entertainer,Musician,Acrobatics;Performance,,2 Costumes;Mirror;Perfume;Traveler's Clothes;11 GP,STR;DEX;CHA
+Farmer,Tough,Animal Handling;Nature,Carpenter's Tools,Sickle;Carpenter's Tools;Healer's Kit;Iron Pot;Shovel;Traveler's Clothes;30 GP,STR;CON;WIS
+Guard,Alert,Athletics;Perception,,Spear;Light Crossbow;20 Bolts;Hooded Lantern;Manacles;Quiver;Traveler's Clothes;12 GP,STR;INT;WIS
+Guide,Magic Initiate (Druid),Stealth;Survival,Cartographer's Tools,Shortbow;20 Arrows;Cartographer's Tools;Bedroll;Quiver;Tent;Traveler's Clothes;3GP,DEX;CON;WIS
+Hermit,Healer,Medicine;Religion,Herbalism Kit,Quarterstaff;Herbalism Kit;Bedroll;Book (philosophy);Lamp;Oil (3 flasks);Traveler's Clothes;16 GP,CON;WIS;CHA
+Merchant,Lucky,Animal Handling;Persuasion,Navigator's Tools,Navigator's Tools;2 Pouches;Traveler's Clothes;22 GP,CON;INT;CHA
+Noble,Skilled,History;Persuasion,,Fine Clothes;Perfume;29 GP,STR;INT;CHA
+Sage,Magic Initiate (Wizard),Arcana;History,Calligrapher's Supplies,Quarterstaff;Calligrapher's Supplies; Book (history);Parchment (8 sheets);Robe;8 GP,CON;INT;WIS
+Sailor,Tavern Brawler,Acrobatics;Perception,Navigator's Tools,Dagger;Navigator's Tools;Rope;Traveler's Clothes;20 GP,STR;DEX;WIS
+Scribe,Skilled,Investigation;Perception,Calligrapher's Supplies,Calligrapher's Supplies;Fine Clothes;Lamp;Oil (3 flasks);Parchment (12 sheets);23 GP,DEX;INT;WIS
+Soldier,Savage Attacker,Athletics;Intimidation,,Spear;Shortbow;20 Arrows;Healer's Kit;Quiver;Traveler's Clothes;14 GP,STR;DEX;CON
+Wayfarer,Lucky,Insight;Stealth,Thieves' Tools,2 Daggers;Thieves' Tools;Bedroll;2 Pouches;Traveler's Clothes;16 GP,DEX;WIS;CHA

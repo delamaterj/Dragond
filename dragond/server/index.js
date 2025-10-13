@@ -1,9 +1,54 @@
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
+const { parse } = require('csv-parse/sync');
+
 
 const app = express();
 const PORT = 5000;
 
+let csv = fs.readFileSync('./data/backgrounds.csv', 'utf-8');
+let records = parse(csv, { columns: true, skip_empty_lines: true });
+
+let BACKGROUNDS = new Map();
+
+for (let record of records) {
+    let name = record.name.trim();
+    // Convert semicolon-separated lists to arrays
+    let skills = record.skills
+      ? record.skills.split(';').map(s => s.trim()).filter(Boolean)
+      : [];
+    let equipment = record.equipment
+      ? record.equipment.split(';').map(e => e.trim()).filter(Boolean)
+      : [];
+    let abilities = record.abilities
+      ? record.abilities.split(';').map(a => a.trim()).filter(Boolean)
+      : [];
+
+    let tool = record.tool ? record.tool.trim() : "";
+    let feat = record.feat ? record.feat.trim() : "";
+
+    // Add to map
+    BACKGROUNDS.set(name, {
+      feat,
+      skills,
+      tool,
+      equipment,
+      abilities
+    });
+}
+
+
+//artisan, tool, equipment tool, crafter tools
+//entertainer, instrument, equipment instrument, musician tools
+//guard, gaming set, gaming set equipment
+//noble, gaming set, gaming set equipment
+//soldier, gaming set, gaming set equipment
+//wayfarer
+
+/*for (const [name, data] of BACKGROUNDS) {
+    console.log(name, data);
+}*/
 /*class Class {
     constructor(potentialSkills, feats, proficiencies)
 }*/
@@ -15,6 +60,8 @@ let allTools = [
     'Dice', 'Dragonchess', 'Playing Cards', 'Three-dragon Ante',
     'Bagpipes', 'Drum', 'Dulcimer', 'Flute', 'Horn', 'Lute', 'Lyre', 'Pan Flute', 'Shawm', 'Viol'
 ];
+
+let artisanTools = [];
 
 let skilledProficiencies = allSkills.concat(allTools);
 
@@ -119,7 +166,7 @@ function acquireToolInst(tempTools, numOfInst) {
 function calculateSkilled(tempSkills, tempTools, skilledProficiencies, allSkills) {
     for (let i = 0; i < 3; i++) {
         let tempValue = skilledProficiencies[Math.floor(Math.random() * skilledProficiencies.length)];
-        if (tempTools.includes(tempValue) || tempTools.includes(tempValue)) {
+        if (tempSkills.includes(tempValue) || tempTools.includes(tempValue)) {
             i--;
         }
         else {
@@ -237,6 +284,14 @@ function generateCharacter(race, background, className) {
     let feats = [];
     let fighterType = "null";
 
+    let backgroundDetails = BACKGROUNDS.get(background);
+    //console.log(backgroundDetails);
+    for (let i of backgroundDetails.skills) {
+        tempSkills.push(i);
+    }
+    feats.push(backgroundDetails.feat);
+    tempTools.push(backgroundDetails.tool);
+/*
     switch (background) {
         case 'Acolyte':
             tempSkills.push('Insight');
@@ -337,7 +392,7 @@ function generateCharacter(race, background, className) {
         default:
             console.log('Error: Background not found');
     }
-
+*/
     if(race === 'Elf') {
         tempSkills = acquireSkills(tempSkills, [1, 'Insight', 'Perception', 'Survival']);
     }
@@ -376,7 +431,7 @@ function generateCharacter(race, background, className) {
             break;
         case 'Rogue':
             tempSkills = acquireSkills(tempSkills, rogueSkills);
-            tempTools.push("Thieve's Tools")
+            tempTools.push("Thieves' Tools")
             break;
         case 'Sorcerer':
             tempSkills = acquireSkills(tempSkills, sorcererSkills);
@@ -481,7 +536,7 @@ app.get('/api/stats', (req, res) => {
     //random:
     let character = generateCharacter(species[Math.floor(Math.random() * species.length)], backgrounds[Math.floor(Math.random() * backgrounds.length)], classes[Math.floor(Math.random() * classes.length)]);
     //custom:
-    //let character = generateCharacter("Elf", "Noble", "Ranger");
+    //let character = generateCharacter("Human", "Charlatan", "Rogue");
     res.json({stats: character});
 });
 

@@ -1,0 +1,13 @@
+name,skills,weapons,armor,equipment,feats
+Barbarian,2;Animal Handling;Athletics;Intimidation;Nature;Perception;Survival,Simple;Martial,Light;Medium;Shields,Greataxe;4 Handaxes;Explorer's Pack;15 GP,Rage;Unarmored Defense;Weapon Mastery
+Bard,3;Acrobatics;Animal Handling;Arcana;Athletics;Deception;History;Insight;Intimidation;Investigation;Medicine;Nature;Perception;Performance;Persuasion;Religion;Sleight of Hand;Stealth;Survival,Simple,Light,Leather Armor;2 Daggers;Entertainer's Pack;19 GP,Bardic Inspiration;Spellcasting
+Cleric,2;History;Insight;Medicine;Persuasion;Religion,Simple,Light;Medium;Shields,Chain Shirt;Shield;Mace;Holy Symbol;Priests Pack;7 GP,Spellcasting;Divine Order
+Druid,2;Arcana;Animal Handling;Insight;Medicine;Nature;Perception;Religion;Survival,Simple,Light;Shields,Leather Armor;Shield;Sickle;Druidic Focus (Quarterstaff);Explorers Pack;Herbalism Kit;9 GP,Spellcasting;Druidic;Primal Order
+Fighter,2;Acrobatics;Animal Handling;Athletics;History;Insight;Intimidation;Persuasion;Perception;Survival,Simple;Martial,Light;Medium;Heavy;Shields,,Fighting Style;Second Wind;Weapon Mastery
+Monk,2;Acrobatics;Athletics;History;Insight;Religion;Stealth,Simple;Martial (light),,Spear;5 Daggers;Explorers Pack;11 GP,Martial Arts;Unarmored Defense
+Paladin,2;Athletics;Insight;Intimidation;Medicine;Persuasion;Religion,Simple;Martial,Light;Medium;Heavy;Shields,Chain Mail;Shield;Longsword;6 Javelins;Holy Symbol;Priests Pack;9 GP,Lay on Hands;Spellcasting;Weapon Mastery
+Ranger,3;Animal Handling;Athletics;Insight;Investigation;Nature;Perception;Stealth;Survival,Simple;Martial,Light;Medium;Shields,Studded Leather Armor;Scimitar;Shortsword;Longbow;20 Arrows;Quiver;Druidic Focus (sprig of mistletoe);Explorers Pack;7 GP,Spellcasting;Favored Enemy;Weapon Mastery
+Rogue,4;Acrobatics;Athletics;Deception;Insight;Intimidation;Investigation;Perception;Persuasion;Sleight of Hand;Stealth,Simple;Martial (light or finesse),Light,Leather Armor;2 Daggers;Shortsword;Shortbow;20 Arrows;Quiver;Thieves Tools;Burglars Pack;8 GP,Expertise;Sneak Attack;Thieves Cant;Weapon Mastery
+Sorcerer,2;Arcana;Deception;Insight;Intimidation;Persuasion;Religion,Simple,,Spear;2 Daggers;Arcane Focus (crystal);Dungeoneers Pack;28 GP,Spellcasting;Innate Sorcery
+Warlock,2;Arcana;Deception;History;Intimidation;Investigation;Nature;Religion,Simple,Light,Leather Armor;Sickle;2 Daggers;Arcane Focus (orb);Book (occult lore);Scholars Pack;15 GP,Eldritch Invocations;Pact Magic
+Wizard,2;Arcana;History;Insight;Investigation;Medicine;Nature;Religion,Simple,,2 Daggers;Arcane Focus (Quarterstaff);Robe;Spellbook;Scholar's Pack;5 GP,Spellcasting;Ritual Adept;Arcane Recovery

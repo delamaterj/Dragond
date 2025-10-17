@@ -79,7 +79,7 @@ for (let record of records) {
 //soldier, gaming set, gaming set equipment
 //wayfarer
 
-/*for (const [name, data] of CLASSES) {
+/*for (const [name, data] of BACKGROUNDS) {
     console.log(name, data);
 }*/
 /*class Class {
@@ -93,8 +93,9 @@ let allTools = [
     'Dice', 'Dragonchess', 'Playing Cards', 'Three-dragon Ante',
     'Bagpipes', 'Drum', 'Dulcimer', 'Flute', 'Horn', 'Lute', 'Lyre', 'Pan Flute', 'Shawm', 'Viol'
 ];
-
-let artisanTools = [];
+let instruments = ['Bagpipes', 'Drum', 'Dulcimer', 'Flute', 'Horn', 'Lute', 'Lyre', 'Pan Flute', 'Shawm', 'Viol'];
+let artisanTools = ["Alchemist's Supplies", "Brewer's Supplies", "Calligrapher's Supplies", "Carpenter's Tools", "Cartographer's Tools", "Cobbler's Tools", "Cook's Utensils", "Glassblower's Tools", "Jeweler's Tools", "Leatherworker's Tools", "Mason's Tools", "Painter's Supplies", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools"];
+let artisanToolsFast = ["Carpenter's Tools", "Leatherworker's Tools", "Mason's Tools", "Potter's Tools", "Smith's Tools", "Tinker's Tools", "Weaver's Tools", "Woodcarver's Tools"];
 
 let skilledProficiencies = allSkills.concat(allTools);
 
@@ -153,6 +154,20 @@ function acquireSkills(tempSkills, skillList) {
         }
     }
     return tempSkills;
+}
+
+function acquireTools(tempTools, toolList, numOfTools) {
+    for (let i = 0; i < numOfTools; i++) {
+        tempValue = toolList[Math.floor(Math.random() * toolList.length)];
+        if(!tempTools.includes(tempValue)) {
+           tempTools.push(tempValue);
+        }
+        else {
+            i--;
+        }
+    }
+    
+    return tempTools;
 }
 
 function acquireToolGaming(tempTools) {
@@ -305,7 +320,16 @@ function generateCharacter(race, background, className) {
     let fighterType = "null";
 
     let backgroundDetails = BACKGROUNDS.get(background);
-    //console.log(backgroundDetails);
+    switch (background) {
+        case 'Artisan':
+            tempTools = acquireTools(tempTools, artisanTools, 1);
+            tempTools = acquireTools(tempTools, artisanToolsFast, 3);
+            break;
+        case 'Entertainer':
+            tempTools = acquireTools(tempTools, instruments, 1);
+            tempTools = acquireTools(tempTools, instruments, 3);
+            break;
+    }
     for (let i of backgroundDetails.skills) {
         tempSkills.push(i);
     }
@@ -326,7 +350,9 @@ function generateCharacter(race, background, className) {
             //inst equip
             break;
         case 'Druid':
-            tempTools.push('Herbalism Kit');
+            if (!tempTools.includes('Herbalism Kit')) {
+                tempTools.push('Herbalism Kit')
+            }
             break;
         case 'Fighter':
             let fighterTypes = ["str", "dex"]
@@ -337,7 +363,9 @@ function generateCharacter(race, background, className) {
             //tool equip
             break;
         case 'Rogue':
-            tempTools.push("Thieves' Tools")
+            if (!tempTools.includes("Thieves' Tools")) {
+                tempTools.push("Thieves' Tools")
+            }
             break;
     }
 
@@ -431,7 +459,7 @@ app.get('/api/stats', (req, res) => {
     //random:
     let character = generateCharacter(species[Math.floor(Math.random() * species.length)], backgrounds[Math.floor(Math.random() * backgrounds.length)], classes[Math.floor(Math.random() * classes.length)]);
     //custom:
-    //let character = generateCharacter("Human", "Charlatan", "Rogue");
+    //let character = generateCharacter("Human", "Artisan", "Rogue");
     res.json({stats: character});
 });
 

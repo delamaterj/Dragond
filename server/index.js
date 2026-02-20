@@ -5,7 +5,7 @@ const { parse } = require('csv-parse/sync');
 
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 let csv = fs.readFileSync('./data/backgrounds.csv', 'utf-8');
 let records = parse(csv, { columns: true, skip_empty_lines: true });
@@ -446,11 +446,7 @@ function generateCharacter(race, background, className) {
     return character;
 }
 
-app.use(
-    cors({
-        origin: ['http://localhost:5173'],
-    })
-);
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.send('Welcome to Node Server');

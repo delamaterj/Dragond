@@ -43,7 +43,7 @@ function Button({title, disabled, url}: ButtonProp){
     async function handleClickGenerate() {
 
         try {
-            const response = await fetch('http://localhost:5000/api/stats');
+            const response = await fetch('https://dragond-3a3i.onrender.com/api/stats');
             if(!response.ok){
                 throw new Error(`HTTP error: , ${response.status}`);
             }

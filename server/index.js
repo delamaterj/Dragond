@@ -446,7 +446,14 @@ function generateCharacter(race, background, className) {
     return character;
 }
 
-app.use(cors());
+app.use(cors(
+    {
+    origin: [
+      "http://localhost:5173",
+      "https://dragond-3a3i.onrender.com/api/stats"
+    ],
+  })
+);
 
 app.get('/', (req, res) => {
     res.send('Welcome to Node Server');

@@ -330,11 +330,16 @@ function generateCharacter(race, background, className) {
             tempTools = acquireTools(tempTools, instruments, 3);
             break;
     }
+
     for (let i of backgroundDetails.skills) {
         tempSkills.push(i);
     }
+
     feats.push(backgroundDetails.feat);
-    tempTools.push(backgroundDetails.tool);
+
+    if (backgroundDetails.tool) {
+        tempTools.push(backgroundDetails.tool);
+    }
 
     if(race === 'Elf') {
         tempSkills = acquireSkills(tempSkills, [1, 'Insight', 'Perception', 'Survival']);
@@ -342,7 +347,7 @@ function generateCharacter(race, background, className) {
 
     let classDetails = CLASSES.get(className);
     tempSkills = acquireSkills(tempSkills, classDetails.skills);
-    feats.push(classDetails.feats);
+    feats.push(...classDetails.feats);
 
     switch (className) {
         case 'Bard':
@@ -457,9 +462,9 @@ app.get('/api/hello', (req, res) => {
 
 app.get('/api/stats', (req, res) => {
     //random:
-    //let character = generateCharacter(species[Math.floor(Math.random() * species.length)], backgrounds[Math.floor(Math.random() * backgrounds.length)], classes[Math.floor(Math.random() * classes.length)]);
+    let character = generateCharacter(species[Math.floor(Math.random() * species.length)], backgrounds[Math.floor(Math.random() * backgrounds.length)], classes[Math.floor(Math.random() * classes.length)]);
     //custom:
-    let character = generateCharacter("Dragonborn", "Artisan", "Rogue");
+    //let character = generateCharacter("Dragonborn", "Artisan", "Rogue");
     res.json({stats: character});
 });
 

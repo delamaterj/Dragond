@@ -457,9 +457,9 @@ app.get('/api/hello', (req, res) => {
 
 app.get('/api/stats', (req, res) => {
     //random:
-    let character = generateCharacter(species[Math.floor(Math.random() * species.length)], backgrounds[Math.floor(Math.random() * backgrounds.length)], classes[Math.floor(Math.random() * classes.length)]);
+    //let character = generateCharacter(species[Math.floor(Math.random() * species.length)], backgrounds[Math.floor(Math.random() * backgrounds.length)], classes[Math.floor(Math.random() * classes.length)]);
     //custom:
-    //let character = generateCharacter("Human", "Artisan", "Rogue");
+    let character = generateCharacter("Dragonborn", "Artisan", "Rogue");
     res.json({stats: character});
 });
 

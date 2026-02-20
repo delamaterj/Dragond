@@ -17,7 +17,7 @@ function App() {
     <Routes>
       <Route path="/" element = {
         <div>
-          <div className="header">
+          <div>
             <h1>Welcome to Dragond!</h1>
           </div>
           <p>Here you will be able to generate your own rpg character</p>
